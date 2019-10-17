@@ -7,6 +7,7 @@ class SymbolType(Enum):
     OPERATOR = 3
     NEWLINE = 4
     SPACE = 5
+    SYMBOL = 6
 
 
 class WordType(Enum):

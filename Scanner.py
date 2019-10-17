@@ -29,6 +29,29 @@ class Scanner:
             self.current_line_index += 1
             self.current_global_index += 1
 
+        elif symbol == "(":
+            if self.last_token != SymbolType.LETTER:
+                raise Exception(
+                    'Invalid token at line {}, index {}'.format(str(self.current_line), str(self.current_line_index)))
+            self.add_token()
+            self.last_token = SymbolType.SYMBOL
+            self.current_line_index += 1
+            self.current_global_index += 1
+
+        elif symbol == ")":
+            if self.last_token != "(" and self.last_token != SymbolType.LETTER:
+                raise Exception(
+                    'Invalid token at line {}, index {}'.format(str(self.current_line), str(self.current_line_index)))
+            self.add_token()
+            self.last_token = SymbolType.SYMBOL
+
+        elif symbol == ".":
+            if self.last_token != SymbolType.LETTER:
+                raise Exception(
+                    'Invalid token at line {}, index {}'.format(str(self.current_line), str(self.current_line_index)))
+            self.add_token()
+            self.last_token = SymbolType.SYMBOL
+
         elif symbol == "\n":
             self.newline_validity_check()
             self.add_token()
@@ -77,6 +100,9 @@ class Scanner:
         elif self.last_token == SymbolType.OPERATOR:
             self.add_operator()
 
+        elif self.last_token == SymbolType.SYMBOL:
+            self.add_symbol()
+
         self.current_token_string = ''
 
     def add_newline(self):
@@ -113,6 +139,9 @@ class Scanner:
         else:
             self.output.write("<IdentifierId " + str(self.identifiers.index(self.current_token_string)) + "> ")
 
+    def add_symbol(self):
+        self.word_symbol_validity_check()
+
     def word_operator_validity_check(self):
         if self.last_word == WordType.OPERATOR:
             raise Exception('Invalid word at line {}'.format(str(self.current_line)))
@@ -130,7 +159,7 @@ class Scanner:
             raise Exception('Invalid word at line {}'.format(str(self.current_line)))
 
     def word_symbol_validity_check(self):
-        if self.last_word != WordType.KEYWORD:
+        if self.last_word != WordType.KEYWORD and self.last_word != WordType.IDENTIFIER:
             raise Exception('Invalid word at line {}'.format(str(self.current_line)))
 
     def keyword_substring_check(self):
@@ -156,7 +185,7 @@ class Scanner:
         if self.last_token == SymbolType.LETTER:
             self.keyword_substring_check()
 
-        elif self.last_token != SymbolType.SPACE and self.last_token != SymbolType.NEWLINE:
+        elif self.last_token != SymbolType.SPACE and self.last_token != SymbolType.NEWLINE and self.last_token != SymbolType.SYMBOL:
             raise Exception(
                 'Invalid token at line {}, index {}'.format(str(self.current_line), str(self.current_line_index)))
 
@@ -180,4 +209,6 @@ class Scanner:
     def newline_validity_check(self):
         if self.last_token == SymbolType.OPERATOR:
             raise Exception('Unexpected end of line at line {}'.format(str(self.current_line)))
+
+
 
