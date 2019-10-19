@@ -1,5 +1,5 @@
 import re
-from Scanner.SymbolType import SymbolType
+from SymbolType import SymbolType
 
 
 class Scanner:
@@ -81,26 +81,26 @@ class Scanner:
         self.output.write("\n")
 
     def add_keyword(self):
-        self.output.write("<KeywordId " + str(self.keywords.index(self.current_token_string)) + "> ")
+        self.output.write("<KeywordId " + "Lexeme:" + self.current_token_string + " Token:" + str(self.keywords.index(self.current_token_string)) + "> ")
 
     def add_operator(self):
-        self.output.write("<OperatorId " + str(self.operators.index(self.current_token_string)) + "> ")
+        self.output.write("<OperatorId " + "Lexeme:" + self.current_token_string + " Token:" + str(self.operators.index(self.current_token_string)) + "> ")
 
     def add_const(self):
         if self.current_token_string not in self.identifiers:
             self.consts.append(self.current_token_string)
-            self.output.write("<ConstId " + str(len(self.consts) - 1) + "> ")
+            self.output.write("<ConstId " + "Lexeme:" + self.current_token_string + " Token:" + str(len(self.consts) - 1) + "> ")
 
         else:
-            self.output.write("<ConstId " + str(self.consts.index(self.current_token_string)) + "> ")
+            self.output.write("<ConstId " + "Lexeme:" + self.current_token_string + " Token:" + str(self.consts.index(self.current_token_string)) + "> ")
 
     def add_identifier(self):
         if self.current_token_string not in self.identifiers:
             self.identifiers.append(self.current_token_string)
-            self.output.write("<IdentifierId " + str(len(self.identifiers) - 1) + "> ")
+            self.output.write("<IdentifierId " + "Lexeme:" + self.current_token_string + " Token:" + str(len(self.identifiers) - 1) + "> ")
 
         else:
-            self.output.write("<IdentifierId " + str(self.identifiers.index(self.current_token_string)) + "> ")
+            self.output.write("<IdentifierId " + "Lexeme:" + self.current_token_string + " Token:" + str(self.identifiers.index(self.current_token_string)) + "> ")
 
     def keyword_substring_check(self):
         check = False
