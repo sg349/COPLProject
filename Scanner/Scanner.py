@@ -12,6 +12,7 @@ class Scanner:
     consts = []
     operators = ['=', '>=', '<=', '<', '>', '==', '~=', '+', '-', '*', '/']
     keywords = ['if', 'while', 'print', 'function', 'repeat']
+    symbols = ['(', ')', '.']
 
     last_token = SymbolType.NEWLINE
     current_token_string = ''
@@ -55,6 +56,11 @@ class Scanner:
             self.current_line_index += 1
             self.current_global_index += 1
 
+        elif symbol == "(" or symbol == ")" or symbol == ".":
+            self.last_token = SymbolType.SYMBOL
+            self.current_line_index += 1
+            self.current_global_index += 1
+
         else:
             raise Exception(
                 'Invalid token at line {}, index {}'.format(str(self.current_line), str(self.current_line_index)))
@@ -75,6 +81,9 @@ class Scanner:
         elif self.last_token == SymbolType.OPERATOR:
             self.add_operator()
 
+        elif self.last_token == SymbolType.SYMBOL:
+            self.add_symbol()
+
         self.current_token_string = ''
 
     def add_newline(self):
@@ -85,6 +94,9 @@ class Scanner:
 
     def add_operator(self):
         self.output.write("<OperatorId " + "Lexeme:" + self.current_token_string + " Token:" + str(self.operators.index(self.current_token_string)) + "> ")
+
+    def add_symbol(self):
+        self.output.write("<SymbolId " + "Lexeme:" + self.current_token_string + " Token:" + str(self.symbols.index(self.current_token_string)) + "> ")
 
     def add_const(self):
         if self.current_token_string not in self.identifiers:
@@ -111,6 +123,15 @@ class Scanner:
         if not check:
             raise Exception(
                 'Invalid token at line {}, index {}'.format(str(self.current_line), str(self.current_line_index)))
+
+    def symbol_substring_check(self, symbol):
+        check = False
+        self.current_token_string += symbol
+        for string in self.symbols:
+            if self.current_token_string in string:
+                check = True
+
+        return check
 
     def operator_substring_check(self, symbol):
         check = False
