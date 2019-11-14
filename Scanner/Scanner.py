@@ -1,4 +1,5 @@
 import re
+from SymbolType import WordType
 from SymbolType import SymbolType
 
 
@@ -12,7 +13,9 @@ class Scanner:
     consts = []
     operators = ['=', '>=', '<=', '<', '>', '==', '~=', '+', '-', '*', '/']
     keywords = ['if', 'while', 'print', 'function', 'repeat']
+    symbols = ['(', ')', '.']
 
+    last_word = None
     last_token = SymbolType.NEWLINE
     current_token_string = ''
     current_global_index = 0
@@ -55,6 +58,11 @@ class Scanner:
             self.current_line_index += 1
             self.current_global_index += 1
 
+        elif symbol == "(" or symbol == ")" or symbol == ".":
+            self.last_token = SymbolType.SYMBOL
+            self.current_line_index += 1
+            self.current_global_index += 1
+
         else:
             raise Exception(
                 'Invalid token at line {}, index {}'.format(str(self.current_line), str(self.current_line_index)))
@@ -75,18 +83,32 @@ class Scanner:
         elif self.last_token == SymbolType.OPERATOR:
             self.add_operator()
 
+        elif self.last_token == SymbolType.SYMBOL:
+            self.add_symbol()
+
         self.current_token_string = ''
 
     def add_newline(self):
+        self.last_word = WordType.NEWLINE
         self.output.write("\n")
 
     def add_keyword(self):
+        self.word_keyword_validity_check()
+        self.last_word = WordType.KEYWORD
         self.output.write("<KeywordId " + "Lexeme:" + self.current_token_string + " Token:" + str(self.keywords.index(self.current_token_string)) + "> ")
 
     def add_operator(self):
+        self.word_operator_validity_check()
+        self.last_word = WordType.OPERATOR
         self.output.write("<OperatorId " + "Lexeme:" + self.current_token_string + " Token:" + str(self.operators.index(self.current_token_string)) + "> ")
 
+    def add_symbol(self):
+        self.word_symbol_validity_check()
+        self.output.write("<SymbolId " + "Lexeme:" + self.current_token_string + " Token:" + str(self.symbols.index(self.current_token_string)) + "> ")
+
     def add_const(self):
+        self.word_number_validity_check()
+        self.last_word = WordType.NUMBER
         if self.current_token_string not in self.identifiers:
             self.consts.append(self.current_token_string)
             self.output.write("<ConstId " + "Lexeme:" + self.current_token_string + " Token:" + str(len(self.consts) - 1) + "> ")
@@ -95,6 +117,8 @@ class Scanner:
             self.output.write("<ConstId " + "Lexeme:" + self.current_token_string + " Token:" + str(self.consts.index(self.current_token_string)) + "> ")
 
     def add_identifier(self):
+        self.word_identifier_validity_check()
+        self.last_word = WordType.IDENTIFIER
         if self.current_token_string not in self.identifiers:
             self.identifiers.append(self.current_token_string)
             self.output.write("<IdentifierId " + "Lexeme:" + self.current_token_string + " Token:" + str(len(self.identifiers) - 1) + "> ")
@@ -112,6 +136,15 @@ class Scanner:
             raise Exception(
                 'Invalid token at line {}, index {}'.format(str(self.current_line), str(self.current_line_index)))
 
+    def symbol_substring_check(self, symbol):
+        check = False
+        self.current_token_string += symbol
+        for string in self.symbols:
+            if self.current_token_string in string:
+                check = True
+
+        return check
+
     def operator_substring_check(self, symbol):
         check = False
         self.current_token_string += symbol
@@ -120,6 +153,26 @@ class Scanner:
                 check = True
 
         return check
+
+    def word_operator_validity_check(self):
+        if self.last_word == WordType.OPERATOR:
+            raise Exception('Invalid word at line {}'.format(str(self.current_line)))
+
+    def word_number_validity_check(self):
+        if self.last_word == WordType.NUMBER or self.last_word == WordType.IDENTIFIER:
+            raise Exception('Invalid word at line {}'.format(str(self.current_line)))
+
+    def word_keyword_validity_check(self):
+        if self.last_word == WordType.KEYWORD or self.last_word == WordType.NUMBER or self.last_word == WordType.IDENTIFIER or self.last_word == WordType.OPERATOR:
+            raise Exception('Invalid word at line {}'.format(str(self.current_line)))
+
+    def word_identifier_validity_check(self):
+        if self.last_word == WordType.IDENTIFIER or self.last_word == WordType.NUMBER:
+            raise Exception('Invalid word at line {}'.format(str(self.current_line)))
+
+    def word_symbol_validity_check(self):
+        if self.last_word != WordType.KEYWORD and self.last_word != WordType.IDENTIFIER:
+            raise Exception('Invalid word at line {}'.format(str(self.current_line)))
 
     def letter_validity_check(self):
         if self.last_token == SymbolType.LETTER:
