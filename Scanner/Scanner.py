@@ -1,6 +1,7 @@
 import re
-from SymbolType import WordType
-from SymbolType import SymbolType
+from Scanner.WordType import WordType
+from Scanner.SymbolType import SymbolType
+from Scanner.Token import Token
 
 
 class Scanner:
@@ -11,8 +12,10 @@ class Scanner:
 
     identifiers = []
     consts = []
-    operators = ['=', '>=', '<=', '<', '>', '==', '~=', '+', '-', '*', '/']
-    keywords = ['if', 'while', 'print', 'function', 'repeat']
+    currentTokenLine = []
+    lineCollection = []
+    operators = ['=', '>=', '<=', '<', '>', '==', '!=', '~=', '+', '-', '*', '/']
+    keywords = ['if', 'while', 'print', 'function', 'repeat', 'for', 'else', 'end']
     symbols = ['(', ')', '.']
 
     last_word = None
@@ -90,41 +93,57 @@ class Scanner:
 
     def add_newline(self):
         self.last_word = WordType.NEWLINE
+        self.lineCollection.append(self.currentTokenLine)
+        self.currentTokenLine = []
         self.output.write("\n")
 
     def add_keyword(self):
         self.word_keyword_validity_check()
         self.last_word = WordType.KEYWORD
-        self.output.write("<KeywordId " + "Lexeme:" + self.current_token_string + " Token:" + str(self.keywords.index(self.current_token_string)) + "> ")
+        self.currentTokenLine.append(Token(WordType.KEYWORD, self.keywords.index(self.current_token_string)))
+        self.output.write("<KeywordId " + "Lexeme:" + self.current_token_string + " Token:" +
+                          str(self.keywords.index(self.current_token_string)) + "> ")
 
     def add_operator(self):
         self.word_operator_validity_check()
         self.last_word = WordType.OPERATOR
-        self.output.write("<OperatorId " + "Lexeme:" + self.current_token_string + " Token:" + str(self.operators.index(self.current_token_string)) + "> ")
+        self.currentTokenLine.append(Token(WordType.OPERATOR, self.operators.index(self.current_token_string)))
+        self.output.write("<OperatorId " + "Lexeme:" + self.current_token_string + " Token:" +
+                          str(self.operators.index(self.current_token_string)) + "> ")
 
     def add_symbol(self):
         self.word_symbol_validity_check()
-        self.output.write("<SymbolId " + "Lexeme:" + self.current_token_string + " Token:" + str(self.symbols.index(self.current_token_string)) + "> ")
+        self.currentTokenLine.append(Token(WordType.SYMBOL, self.symbols.index(self.current_token_string)))
+        self.output.write("<SymbolId " + "Lexeme:" + self.current_token_string + " Token:" +
+                          str(self.symbols.index(self.current_token_string)) + "> ")
 
     def add_const(self):
         self.word_number_validity_check()
         self.last_word = WordType.NUMBER
         if self.current_token_string not in self.identifiers:
             self.consts.append(self.current_token_string)
-            self.output.write("<ConstId " + "Lexeme:" + self.current_token_string + " Token:" + str(len(self.consts) - 1) + "> ")
+            self.output.write("<ConstId " + "Lexeme:" + self.current_token_string + " Token:" +
+                              str(len(self.consts) - 1) + "> ")
+            self.currentTokenLine.append(Token(WordType.NUMBER, len(self.consts) - 1))
 
         else:
-            self.output.write("<ConstId " + "Lexeme:" + self.current_token_string + " Token:" + str(self.consts.index(self.current_token_string)) + "> ")
+            self.output.write("<ConstId " + "Lexeme:" + self.current_token_string + " Token:" +
+                              str(self.consts.index(self.current_token_string)) + "> ")
+            self.currentTokenLine.append(Token(WordType.NUMBER, self.consts.index(self.current_token_string)))
 
     def add_identifier(self):
         self.word_identifier_validity_check()
         self.last_word = WordType.IDENTIFIER
         if self.current_token_string not in self.identifiers:
             self.identifiers.append(self.current_token_string)
-            self.output.write("<IdentifierId " + "Lexeme:" + self.current_token_string + " Token:" + str(len(self.identifiers) - 1) + "> ")
+            self.output.write("<IdentifierId " + "Lexeme:" + self.current_token_string + " Token:" +
+                              str(len(self.identifiers) - 1) + "> ")
+            self.currentTokenLine.append(Token(WordType.IDENTIFIER, len(self.identifiers) - 1))
 
         else:
-            self.output.write("<IdentifierId " + "Lexeme:" + self.current_token_string + " Token:" + str(self.identifiers.index(self.current_token_string)) + "> ")
+            self.output.write("<IdentifierId " + "Lexeme:" + self.current_token_string + " Token:" +
+                              str(self.identifiers.index(self.current_token_string)) + "> ")
+            self.currentTokenLine.append(Token(WordType.IDENTIFIER, self.identifiers.index(self.current_token_string)))
 
     def keyword_substring_check(self):
         check = False
@@ -163,7 +182,8 @@ class Scanner:
             raise Exception('Invalid word at line {}'.format(str(self.current_line)))
 
     def word_keyword_validity_check(self):
-        if self.last_word == WordType.KEYWORD or self.last_word == WordType.NUMBER or self.last_word == WordType.IDENTIFIER or self.last_word == WordType.OPERATOR:
+        if self.last_word == WordType.KEYWORD or self.last_word == WordType.NUMBER or \
+                self.last_word == WordType.IDENTIFIER or self.last_word == WordType.OPERATOR:
             raise Exception('Invalid word at line {}'.format(str(self.current_line)))
 
     def word_identifier_validity_check(self):
@@ -171,7 +191,8 @@ class Scanner:
             raise Exception('Invalid word at line {}'.format(str(self.current_line)))
 
     def word_symbol_validity_check(self):
-        if self.last_word != WordType.KEYWORD and self.last_word != WordType.IDENTIFIER:
+        if self.last_word != WordType.KEYWORD and self.last_word != WordType.IDENTIFIER and \
+                self.last_word != WordType.NUMBER:
             raise Exception('Invalid word at line {}'.format(str(self.current_line)))
 
     def letter_validity_check(self):

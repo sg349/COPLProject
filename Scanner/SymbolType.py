@@ -7,13 +7,6 @@ class SymbolType(Enum):
     OPERATOR = 3
     NEWLINE = 4
     SPACE = 5
-
-class WordType(Enum):
-    KEYWORD = 1
-    OPERATOR = 2
-    NUMBER = 3
-    IDENTIFIER = 4
-    SYMBOL = 5
-    NEWLINE = 6
+    SYMBOL = 6
 
 
