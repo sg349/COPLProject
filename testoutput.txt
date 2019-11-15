@@ -1,3 +1,8 @@
-<IdentifierId 0> <OperatorId 0> <ConstId 0> 
-<IdentifierId 1> <OperatorId 0> <ConstId 1> 
-<IdentifierId 2> <OperatorId 0> <IdentifierId 0> <OperatorId 7> <IdentifierId 1> 
+<KeywordId Lexeme:function Token:3> <IdentifierId Lexeme:w Token:0> <SymbolId Lexeme:( Token:0> <SymbolId Lexeme:) Token:1> 
+<IdentifierId Lexeme:r Token:1> <OperatorId Lexeme:= Token:0> <ConstId Lexeme:5 Token:0> 
+<KeywordId Lexeme:while Token:1> <IdentifierId Lexeme:r Token:1> <OperatorId Lexeme:<= Token:2> <ConstId Lexeme:10 Token:1> 
+<KeywordId Lexeme:print Token:2> <SymbolId Lexeme:( Token:0> <IdentifierId Lexeme:r Token:1> <SymbolId Lexeme:) Token:1> 
+<IdentifierId Lexeme:r Token:1> <OperatorId Lexeme:= Token:0> <IdentifierId Lexeme:r Token:1> <OperatorId Lexeme:+ Token:8> <ConstId Lexeme:1 Token:2> 
+<KeywordId Lexeme:end Token:7> 
+<KeywordId Lexeme:print Token:2> <SymbolId Lexeme:( Token:0> <ConstId Lexeme:89 Token:3> <SymbolId Lexeme:) Token:1> 
+<KeywordId Lexeme:end Token:7> 
