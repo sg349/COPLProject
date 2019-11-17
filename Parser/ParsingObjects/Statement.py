@@ -16,7 +16,9 @@ class Statement:
             else:
                 self.expressions.append(Expression(ExpressionType.ASSIGNMENT, line[0:2]))
                 self.expressions.append(Expression(ExpressionType.ARITHMETIC, line[2:5]))
-        if enum_type == StatementType.WHILE:
+        elif enum_type == StatementType.WHILE:
+            self.expressions.append(Expression(ExpressionType.BOOLEAN, line[1:4]))
+        elif enum_type == StatementType.CONDITIONAL:
             self.expressions.append(Expression(ExpressionType.BOOLEAN, line[1:4]))
 
     def print_statement(self):
@@ -29,6 +31,13 @@ class Statement:
                 for expression in self.expressions:
                     expression.print_expression()
 
-        if self.enum_type == StatementType.WHILE:
+        elif self.enum_type == StatementType.WHILE:
             print("<while_statement> -> while <boolean_expression> then <block>")
             self.expressions[0].print_expression()
+
+        elif self.enum_type == StatementType.CONDITIONAL:
+            print("<conditional_statement> -> if <boolean_expression> then <block> else <block>")
+            self.expressions[0].print_expression()
+
+        elif self.enum_type == StatementType.PRINT:
+            print("<print_statement> -> print ( <block> )")

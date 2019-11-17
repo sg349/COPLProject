@@ -2,4 +2,4 @@
 <KeywordId Lexeme:while Token:1> <IdentifierId Lexeme:x Token:1> <OperatorId Lexeme:> Token:4> <ConstId Lexeme:5 Token:0> 
 <IdentifierId Lexeme:w Token:2> <OperatorId Lexeme:= Token:0> <ConstId Lexeme:5 Token:1> 
 <KeywordId Lexeme:end Token:7> 
-<KeywordId Lexeme:end Token:7> 
+<KeywordId Lexeme:end Token:7>
