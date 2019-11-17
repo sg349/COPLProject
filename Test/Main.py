@@ -18,7 +18,7 @@ def main():
 
     for line in scan.lineCollection:
         for token in line:
-            print("type: " + str(token.type) + " id: " + str(token.id), end=' | ')
+            print("type: " + str(token.enum_type) + " id: " + str(token.id), end=' | ')
         print("")
     print("________")
 
