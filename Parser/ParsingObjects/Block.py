@@ -3,6 +3,8 @@ from Parser.ParsingObjects.Statement import Statement
 from Parser.StatementType import StatementType
 
 
+# how the evaluate_block
+
 class Block:
 
     def __init__(self, start_index, end_index, collection):
@@ -15,25 +17,30 @@ class Block:
     def evaluate_block(self):
         self.curr_index = self.start_index
         while self.curr_index != self.end_index:
-            if self.collection[self.curr_index][0].enum_type == WordType.KEYWORD and self.collection[self.curr_index][0].id == 7:
-                break
+            # if self.collection[self.curr_index][0].enum_type == WordType.KEYWORD and self.collection[self.curr_index][0].id == 7:
+            #     break
             # Keyword Statement
-            elif self.collection[self.curr_index][0].enum_type == WordType.KEYWORD:
-                # if statement
+            if self.collection[self.curr_index][0].enum_type == WordType.KEYWORD:
+                # conditional statement
                 if self.collection[self.curr_index][0].id == 0:
-                    self.statements.append(Statement(self.collection[self.curr_index], StatementType.IF))
+                    self.statements.append(Statement(self.collection[self.curr_index], StatementType.CONDITIONAL))
                     block_end_index = self.find_end()
                     statement_block = Block(self.curr_index + 1, block_end_index, self.collection)
                     statement_block.evaluate_block()
 
                 # while statement
-                if self.collection[self.curr_index][0].id == 1:
+                elif self.collection[self.curr_index][0].id == 1:
                     self.statements.append(Statement(self.collection[self.curr_index], StatementType.WHILE))
                     block_end_index = self.find_end()
                     statement_block = Block(self.curr_index + 1, block_end_index, self.collection)
                     statement_block.evaluate_block()
-                    # statement_block.print_block()
-                    
+
+                # print statement
+                elif self.collection[self.curr_index][0].id == 7:
+                    self.statements.append(Statement(self.collection[self.curr_index], StatementType.PRINT))
+                    statement_block = Block(self.curr_index + 1, self.curr_index + 1, self.collection)
+                    statement_block.evaluate_block()
+
             # Assignment Statement
             elif self.collection[self.curr_index][0].enum_type == WordType.IDENTIFIER:
                 self.statements.append(Statement(self.collection[self.curr_index], StatementType.ASSIGNMENT))

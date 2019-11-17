@@ -31,6 +31,7 @@ class Expression:
 
         elif self.enum_type == ExpressionType.BOOLEAN:
             print("<boolean_expression> -> " + self.token_string())
+
         for token in self.tokens:
             token.print_token()
 

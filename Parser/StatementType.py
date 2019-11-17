@@ -3,7 +3,7 @@ from enum import Enum
 
 class StatementType(Enum):
     ARITHMETIC = 1
-    IF = 2
+    CONDITIONAL = 2
     ASSIGNMENT = 3
     WHILE = 4
     REPEAT = 5
@@ -15,7 +15,7 @@ class StatementType(Enum):
             return "arithmetic_statement"
 
         if self.value == 2:
-            return "if_statement"
+            return "conditional_statement"
 
         if self.value == 3:
             return "assignment_statement"

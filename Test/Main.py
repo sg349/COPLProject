@@ -1,9 +1,10 @@
 from Scanner.Scanner import Scanner
 from Parser.Parser import Parser
 
+
 def main():
     # Load in test code
-    testcode = open("Test/testcode.txt", "r")
+    testcode = open("/Users/coogankoerts/PycharmProjects/COPLProject-Scanner/Test/testcode.txt", "r")
     contents = testcode.read()
     scan = Scanner()
     for symbol in contents:
@@ -24,7 +25,6 @@ def main():
 
     parser = Parser(Scanner.lineCollection)
     parser.parse()
-
 
 
 if __name__ == "__main__":
