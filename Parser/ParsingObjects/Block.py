@@ -2,8 +2,11 @@ from Scanner.WordType import WordType
 from Parser.ParsingObjects.Statement import Statement
 from Parser.StatementType import StatementType
 
+# Coogan Koerts, Brent Einolf, Sam Gardiner
 
-# how the evaluate_block
+# This class is used as starting point for each "block" statement. From here the "block" will be broken broken down by
+# each statement with in and from there each statement will be determined what type of statement it is and whether or
+# not it is an expression. This class is also contains the print functions for the block statements.
 
 class Block:
 

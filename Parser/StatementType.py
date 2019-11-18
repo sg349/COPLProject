@@ -1,5 +1,8 @@
 from enum import Enum
 
+# Coogan Koerts, Brent Einolf, Sam Gardiner
+
+# This is an enum class that is used to determine which type of statement is being used.
 
 class StatementType(Enum):
     ARITHMETIC = 1

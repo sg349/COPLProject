@@ -2,6 +2,19 @@ from Parser.StatementType import StatementType
 from Parser.ExpressionType import ExpressionType
 from Parser.ParsingObjects.Expression import Expression
 
+# Coogan Koerts, Brent Einolf, Sam Gardiner
+
+# This file contains all of the information to determine if the statement passed to this class is either a Arithmetic,
+# Conditional, Assignment, While, Repeat, For or a Print statement. From there some of the statements can be broken down
+# into expressions. This class is also contains the print functions for statements.
+
+ARITHMETIC = 1
+CONDITIONAL = 2
+ASSIGNMENT = 3
+WHILE = 4
+REPEAT = 5
+FOR = 6
+PRINT = 7
 
 class Statement:
 

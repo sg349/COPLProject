@@ -2,6 +2,11 @@ from Scanner.WordType import WordType
 from Parser.ExpressionType import ExpressionType
 from Parser.OperatorType import OperatorType
 
+# Coogan Koerts, Brent Einolf, Sam Gardiner
+
+# This class is the class that determines the output for each expression type. If the Expression is determined to be
+# of an Assignment, Arithmetic or a Boolean expression and output will be stored and printed appropriately. This class
+# is also contains the print functions for the expression statements.
 
 class Expression:
     def __init__(self, enum_type, tokens):
