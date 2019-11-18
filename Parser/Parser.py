@@ -1,6 +1,10 @@
 from Scanner.WordType import WordType
 from Parser.ParsingObjects.Block import Block
 
+# Coogan Koerts, Brent Einolf, Sam Gardiner
+
+# This is the actual Parser class that drives the parsing of the tokens scanned in from the Scanner. The Block method
+# is a recursive method that will continue to call itself until all statements have been called.
 
 class Parser:
     def __init__(self, lineCollection):
