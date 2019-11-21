@@ -4,8 +4,9 @@ from enum import Enum
 
 # This is an enum class that is used to determine which type of statement is being used.
 
+
 class StatementType(Enum):
-    ARITHMETIC = 1
+    ELSE = 1
     CONDITIONAL = 2
     ASSIGNMENT = 3
     WHILE = 4
@@ -15,7 +16,7 @@ class StatementType(Enum):
 
     def string_type(self):
         if self.value == 1:
-            return "arithmetic_statement"
+            return "else_statement"
 
         if self.value == 2:
             return "conditional_statement"

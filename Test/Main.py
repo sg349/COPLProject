@@ -4,7 +4,7 @@ from Parser.Parser import Parser
 
 def main():
     # Load in test code
-    testcode = open("/Users/coogankoerts/PycharmProjects/COPLProject-Scanner/Test/testcode.txt", "r")
+    testcode = open("Test/testcode.txt", "r")
     contents = testcode.read()
     scan = Scanner()
     for symbol in contents:

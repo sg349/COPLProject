@@ -1,11 +1,7 @@
 function a ( )
-while x > 5
-w = 5
-end
-if x > 3
-n = 5
+if i != 4
+print ( i )
 else
-n = 6
+print ( 333 )
 end
-print ( n )
 end

@@ -1,6 +1,7 @@
 from Scanner.WordType import WordType
 from Parser.ParsingObjects.Statement import Statement
 from Parser.StatementType import StatementType
+from Parser.ParsingObjects.Collection import Collection
 
 # Coogan Koerts, Brent Einolf, Sam Gardiner
 
@@ -8,47 +9,73 @@ from Parser.StatementType import StatementType
 # each statement with in and from there each statement will be determined what type of statement it is and whether or
 # not it is an expression. This class is also contains the print functions for the block statements.
 
-class Block:
 
-    def __init__(self, start_index, end_index, collection):
-        self.start_index = start_index
-        self.end_index = end_index
+class Block:
+    current_index = 1
+
+    def __init__(self, collection):
+        self.start_index = Block.current_index
+        Collection.collection = collection
         self.collection = collection
-        self.curr_index = 0
         self.statements = []
 
     def evaluate_block(self):
-        self.curr_index = self.start_index
-        while self.curr_index != self.end_index:
-            # if self.collection[self.curr_index][0].enum_type == WordType.KEYWORD and self.collection[self.curr_index][0].id == 7:
-            #     break
+        while True:
+            c = Collection.collection
+            print("")
+            if len(Collection.collection) <= Block.current_index:
+                break
+
+            if Collection.collection[Block.current_index][0].enum_type == WordType.KEYWORD and Collection.collection[Block.current_index][0].id == 7:
+                Block.current_index += 1
+                break
+
             # Keyword Statement
-            if self.collection[self.curr_index][0].enum_type == WordType.KEYWORD:
+            if Collection.collection[Block.current_index][0].enum_type == WordType.KEYWORD:
                 # conditional statement
-                if self.collection[self.curr_index][0].id == 0:
-                    self.statements.append(Statement(self.collection[self.curr_index], StatementType.CONDITIONAL))
-                    block_end_index = self.find_end()
-                    statement_block = Block(self.curr_index + 1, block_end_index, self.collection)
+                if Collection.collection[Block.current_index][0].id == 0:
+                    statement = Statement(Collection.collection[Block.current_index], StatementType.CONDITIONAL)
+                    self.statements.append(statement)
+                    Block.current_index += 1
+                    statement_block = Block(Collection.collection)
                     statement_block.evaluate_block()
+                    statement.blocks.append(statement_block)
+
+                # else statement
+                elif Collection.collection[Block.current_index][0].id == 6:
+                    statement = Statement(Collection.collection[Block.current_index], StatementType.ELSE)
+                    self.statements.append(statement)
+                    Block.current_index += 1
+                    statement_block = Block(Collection.collection)
+                    statement_block.evaluate_block()
+                    statement.blocks.append(statement_block)
+
 
                 # while statement
-                elif self.collection[self.curr_index][0].id == 1:
-                    self.statements.append(Statement(self.collection[self.curr_index], StatementType.WHILE))
-                    block_end_index = self.find_end()
-                    statement_block = Block(self.curr_index + 1, block_end_index, self.collection)
+                elif Collection.collection[Block.current_index][0].id == 1:
+                    statement = Statement(Collection.collection[Block.current_index], StatementType.WHILE)
+                    self.statements.append(statement)
+                    Block.current_index += 1
+                    statement_block = Block(Collection.collection)
                     statement_block.evaluate_block()
+                    statement.blocks.append(statement_block)
 
                 # print statement
-                elif self.collection[self.curr_index][0].id == 7:
-                    self.statements.append(Statement(self.collection[self.curr_index], StatementType.PRINT))
-                    statement_block = Block(self.curr_index + 1, self.curr_index + 1, self.collection)
-                    statement_block.evaluate_block()
+                elif Collection.collection[Block.current_index][0].id == 2:
+                    self.statements.append(Statement(Collection.collection[Block.current_index], StatementType.PRINT))
+                    Block.current_index += 1
+
+                # for statement
+                elif Collection.collection[Block.current_index][0].id == 5:
+                    self.statements.append(Statement(Collection.collection[Block.current_index], StatementType.FOR))
+                    Block.current_index += 1
 
             # Assignment Statement
-            elif self.collection[self.curr_index][0].enum_type == WordType.IDENTIFIER:
-                self.statements.append(Statement(self.collection[self.curr_index], StatementType.ASSIGNMENT))
+            elif Collection.collection[Block.current_index][0].enum_type == WordType.IDENTIFIER:
+                self.statements.append(Statement(Collection.collection[Block.current_index], StatementType.ASSIGNMENT))
+                Block.current_index += 1
 
-            self.curr_index = self.curr_index + 1
+        Statement.current_line = Block.current_index
 
     def print_block(self):
         print("<block> -> ", end='')
@@ -57,12 +84,3 @@ class Block:
         print("")
         for statement in self.statements:
             statement.print_statement()
-
-    def find_end(self):
-        find_end_index = self.curr_index + 1
-        while find_end_index != self.end_index:
-            if self.collection[find_end_index][0].enum_type == WordType.KEYWORD and self.collection[find_end_index][0].id == 7:
-                return find_end_index
-            else:
-                find_end_index += 1
-        raise Exception('Missing end for statement')

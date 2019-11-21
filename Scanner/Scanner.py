@@ -16,7 +16,7 @@ class Scanner:
     lineCollection = []
     operators = ['=', '>=', '<=', '<', '>', '==', '!=', '~=', '+', '-', '*', '/']
     keywords = ['if', 'while', 'print', 'function', 'repeat', 'for', 'else', 'end']
-    symbols = ['(', ')', '.']
+    symbols = ['(', ')', '.', ':']
 
     last_word = None
     last_token = SymbolType.NEWLINE
@@ -61,7 +61,7 @@ class Scanner:
             self.current_line_index += 1
             self.current_global_index += 1
 
-        elif symbol == "(" or symbol == ")" or symbol == ".":
+        elif symbol == "(" or symbol == ")" or symbol == "." or symbol == ":":
             self.last_token = SymbolType.SYMBOL
             self.current_line_index += 1
             self.current_global_index += 1
@@ -113,6 +113,7 @@ class Scanner:
 
     def add_symbol(self):
         self.word_symbol_validity_check()
+        self.last_word = WordType.SYMBOL
         self.currentTokenLine.append(Token(WordType.SYMBOL, self.symbols.index(self.current_token_string), self.current_token_string))
         self.output.write("<SymbolId " + "Lexeme:" + self.current_token_string + " Token:" +
                           str(self.symbols.index(self.current_token_string)) + "> ")
@@ -120,7 +121,7 @@ class Scanner:
     def add_const(self):
         self.word_number_validity_check()
         self.last_word = WordType.NUMBER
-        if self.current_token_string not in self.identifiers:
+        if self.current_token_string not in self.consts:
             self.consts.append(self.current_token_string)
             self.output.write("<ConstId " + "Lexeme:" + self.current_token_string + " Token:" +
                               str(len(self.consts) - 1) + "> ")
@@ -192,7 +193,7 @@ class Scanner:
 
     def word_symbol_validity_check(self):
         if self.last_word != WordType.KEYWORD and self.last_word != WordType.IDENTIFIER and \
-                self.last_word != WordType.NUMBER:
+                self.last_word != WordType.NUMBER and self.last_word != WordType.SYMBOL:
             raise Exception('Invalid word at line {}'.format(str(self.current_line)))
 
     def letter_validity_check(self):
