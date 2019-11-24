@@ -12,14 +12,16 @@ class Parser:
 
     def __init__(self, line_collection):
         Parser.line_collection = line_collection
+        self.start_block = []
 
     def parse(self):
         if self.line_collection[0][0].enum_type != WordType.KEYWORD or self.line_collection[0][0].id != 3:
             raise Exception("Expected Function at start of file")
 
-        start_block = Block(self.line_collection)
-        start_block.evaluate_block()
-        self.print_parse(start_block)
+        self.start_block = Block(self.line_collection)
+        self.start_block.evaluate_block(False)
+        self.print_parse(self.start_block)
+        return self.start_block
 
     def print_parse(self, start):
         print("function " + self.line_collection[0][1].value + "( ) <block> end")

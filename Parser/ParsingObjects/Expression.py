@@ -25,7 +25,7 @@ class Expression:
 
         if enum_type == ExpressionType.BOOLEAN:
             if (tokens[0].enum_type != WordType.IDENTIFIER and tokens[0].enum_type != WordType.NUMBER) or tokens[1].enum_type != WordType.OPERATOR or tokens[1].operator_type != OperatorType.RELATIVE:
-                raise Exception('Incorrect Arithmetic Statement')
+                raise Exception('Incorrect Boolean Statement')
 
     def print_expression(self):
         if self.enum_type == ExpressionType.ASSIGNMENT:

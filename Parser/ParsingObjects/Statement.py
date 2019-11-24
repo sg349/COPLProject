@@ -93,9 +93,9 @@ class Statement:
         while_line = []
         increment_line = []
 
-        increment_from_identifier = line[1].value
-        increment_from_value = int(line[3].value) - 1
-        increment_to = int(line[5].value)
+        increment_from_identifier = str(line[1].value)
+        increment_from_value = str(int(line[3].value) - 1)
+        increment_to = str(int(line[5].value))
 
         if increment_from_identifier not in Scanner.identifiers:
             Scanner.identifiers.append(increment_from_identifier)
@@ -110,13 +110,13 @@ class Statement:
             from_id = Scanner.consts.index(increment_from_value)
 
         if increment_to not in Scanner.consts:
-            Scanner.consts.append(increment_from_value)
+            Scanner.consts.append(increment_to)
             to_id = len(Scanner.consts) - 1
         else:
             to_id = Scanner.consts.index(increment_to)
 
         if 1 not in Scanner.consts:
-            Scanner.consts.append(increment_from_value)
+            Scanner.consts.append(1)
             one_id = len(Scanner.consts) - 1
         else:
             one_id = Scanner.consts.index(1)

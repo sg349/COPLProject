@@ -19,15 +19,16 @@ class Block:
         self.collection = collection
         self.statements = []
 
-    def evaluate_block(self):
+    def evaluate_block(self, if_statement):
         while True:
-            c = Collection.collection
-            print("")
             if len(Collection.collection) <= Block.current_index:
                 break
 
             if Collection.collection[Block.current_index][0].enum_type == WordType.KEYWORD and Collection.collection[Block.current_index][0].id == 7:
                 Block.current_index += 1
+                break
+
+            if Collection.collection[Block.current_index][0].id == 6 and if_statement:
                 break
 
             # Keyword Statement
@@ -38,7 +39,7 @@ class Block:
                     self.statements.append(statement)
                     Block.current_index += 1
                     statement_block = Block(Collection.collection)
-                    statement_block.evaluate_block()
+                    statement_block.evaluate_block(True)
                     statement.blocks.append(statement_block)
 
                 # else statement
@@ -47,9 +48,8 @@ class Block:
                     self.statements.append(statement)
                     Block.current_index += 1
                     statement_block = Block(Collection.collection)
-                    statement_block.evaluate_block()
+                    statement_block.evaluate_block(False)
                     statement.blocks.append(statement_block)
-
 
                 # while statement
                 elif Collection.collection[Block.current_index][0].id == 1:
@@ -57,7 +57,7 @@ class Block:
                     self.statements.append(statement)
                     Block.current_index += 1
                     statement_block = Block(Collection.collection)
-                    statement_block.evaluate_block()
+                    statement_block.evaluate_block(False)
                     statement.blocks.append(statement_block)
 
                 # print statement

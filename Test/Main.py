@@ -1,5 +1,6 @@
 from Scanner.Scanner import Scanner
 from Parser.Parser import Parser
+from Interpreter.Interpreter import Interpreter
 
 
 def main():
@@ -24,7 +25,15 @@ def main():
     print("________")
 
     parser = Parser(Scanner.lineCollection)
-    parser.parse()
+    parsed_block = parser.parse()
+
+    print("")
+    print("________")
+    print("")
+
+    Interpreter.consts = scan.consts
+    Interpreter.identifiers = scan.identifiers
+    Interpreter.interpret(parsed_block.statements)
 
 
 if __name__ == "__main__":

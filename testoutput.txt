@@ -1,7 +1,10 @@
 <KeywordId Lexeme:function Token:3> <IdentifierId Lexeme:a Token:0> <SymbolId Lexeme:( Token:0> <SymbolId Lexeme:) Token:1> 
-<KeywordId Lexeme:if Token:0> <IdentifierId Lexeme:i Token:1> <OperatorId Lexeme:!= Token:6> <ConstId Lexeme:4 Token:0> 
-<KeywordId Lexeme:print Token:2> <SymbolId Lexeme:( Token:0> <IdentifierId Lexeme:i Token:1> <SymbolId Lexeme:) Token:1> 
+<KeywordId Lexeme:for Token:5> <IdentifierId Lexeme:i Token:1> <OperatorId Lexeme:= Token:0> <ConstId Lexeme:3 Token:0> <SymbolId Lexeme:: Token:3> <ConstId Lexeme:5 Token:1> 
+<KeywordId Lexeme:if Token:0> <IdentifierId Lexeme:i Token:1> <OperatorId Lexeme:!= Token:6> <ConstId Lexeme:4 Token:2> 
+<KeywordId Lexeme:print Token:2> <SymbolId Lexeme:( Token:0> <ConstId Lexeme:333 Token:3> <SymbolId Lexeme:) Token:1> 
 <KeywordId Lexeme:else Token:6> 
-<KeywordId Lexeme:print Token:2> <SymbolId Lexeme:( Token:0> <ConstId Lexeme:333 Token:1> <SymbolId Lexeme:) Token:1> 
+<KeywordId Lexeme:print Token:2> <SymbolId Lexeme:( Token:0> <IdentifierId Lexeme:i Token:1> <SymbolId Lexeme:) Token:1> 
 <KeywordId Lexeme:end Token:7> 
 <KeywordId Lexeme:end Token:7> 
+<KeywordId Lexeme:end Token:7> 
+
